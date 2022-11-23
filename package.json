@@ -1,0 +1,26 @@
+{
+  "name": "theonesdk",
+  "version": "0.0.1",
+  "description": "To rule them all.",
+  "main": "dist/index.ts",
+  "directories": {
+    "dist": "dist"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "deploy": "npm publish @theone/js"
+  },
+  "keywords": [
+    "lotr"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.2.3",
+    "jest": "^29.3.1"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  }
+}
