@@ -9,45 +9,50 @@ export type APIResponse<T> = {
   pages?: number;
   success?: boolean;
   message?: string;
-}
+};
 
 class APIClient {
-  ready: boolean = false
-  #token: string = ''
-  #apiVersion: string = 'v2'
+  ready: boolean = false;
+  #token: string = "";
+  #apiVersion: string = "v2";
 
-  init({ token, apiVersion }: { token: string, apiVersion?: string }) {
-    this.#token = token
-    this.#apiVersion = apiVersion || 'v2'
-    this.ready = true
+  init({ token, apiVersion }: { token: string; apiVersion?: string }) {
+    this.#token = token;
+    this.#apiVersion = apiVersion || "v2";
+    this.ready = true;
   }
 
   get baseUrl() {
-    return `https://the-one-api.dev/${this.#apiVersion}`
+    return `https://the-one-api.dev/${this.#apiVersion}`;
   }
 
   get #headers() {
-    return this.#token ? { authorization: `Bearer ${this.#token}` } : undefined
+    return this.#token ? { authorization: `Bearer ${this.#token}` } : undefined;
   }
 
   #parseOptions(options: RequestOptions) {
     //TODO: implement options parsing
   }
 
-  async get<T>(route: string, options?: RequestOptions): Promise<APIResponse<T>> {
+  async get<T>(
+    route: string,
+    options?: RequestOptions
+  ): Promise<APIResponse<T>> {
     if (!this.ready) {
-      throw new Error('apiClient not initialized')
+      throw new Error("apiClient not initialized");
     }
-    const res = await fetch(
-      `${this.baseUrl}${route}`,
-      {
-        headers: this.#headers,
-      }
-    )
-    return res.json() as APIResponse<T>
+    const res = await fetch(`${this.baseUrl}${route}`, {
+      headers: this.#headers,
+    });
+
+    if (res.status >= 400) {
+      return { success: false, message: await res.text() };
+    }
+
+    return res.json() as APIResponse<T>;
   }
 }
 
-const apiClient = new APIClient()
+const apiClient = new APIClient();
 
-export default apiClient
+export default apiClient;
