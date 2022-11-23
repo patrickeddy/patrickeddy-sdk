@@ -1,5 +1,5 @@
 type Chapter = {
-  _id: string;
+  id: string;
   book: string;
   chapterName: string;
 }

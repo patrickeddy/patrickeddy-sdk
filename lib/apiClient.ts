@@ -1,4 +1,6 @@
-type APIResponse<T> = {
+import { RequestOptions } from "./types";
+
+export type APIResponse<T> = {
   docs?: T;
   total?: number;
   limit?: number;
@@ -10,32 +12,42 @@ type APIResponse<T> = {
 }
 
 class APIClient {
-  #token: string;
-  #apiVersion: string
+  ready: boolean = false
+  #token: string = ''
+  #apiVersion: string = 'v2'
 
-  constructor({ token, apiVersion }: { token: string, apiVersion?: string }) {
+  init({ token, apiVersion }: { token: string, apiVersion?: string }) {
     this.#token = token
     this.#apiVersion = apiVersion || 'v2'
+    this.ready = true
   }
 
-  get #baseUrl() {
+  get baseUrl() {
     return `https://the-one-api.dev/${this.#apiVersion}`
   }
 
   get #headers() {
-    return { authorization: `Bearer ${this.#token}` }
+    return this.#token ? { authorization: `Bearer ${this.#token}` } : undefined
   }
 
-  async get<T>(route: string): Promise<APIResponse<T>> {
+  #parseOptions(options: RequestOptions) {
+    //TODO: implement options parsing
+  }
+
+  async get<T>(route: string, options?: RequestOptions): Promise<APIResponse<T>> {
+    if (!this.ready) {
+      throw new Error('apiClient not initialized')
+    }
     const res = await fetch(
-      `${this.#baseUrl}${route}`,
+      `${this.baseUrl}${route}`,
       {
         headers: this.#headers,
       }
     )
-    return res.json()
+    return res.json() as APIResponse<T>
   }
 }
 
+const apiClient = new APIClient()
 
-export default APIClient
+export default apiClient

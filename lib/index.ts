@@ -1,27 +1,27 @@
-
-import APIClient from './apiClient';
-import Book from './models/Book';
-import Chapter from './models/Chapter';
-import Movie from './models/Movie';
-import Quote from './models/Quote';
-import { ClientOptions, EntityFetchResponse, RequestOptions } from './types';
-
+import apiClient from "./apiClient";
+import Book from "./models/Book";
+import Chapter from "./models/Chapter";
+import Movie from "./models/Movie";
+import Quote from "./models/Quote";
+import { ClientOptions, EntityFetchResponse, RequestOptions } from "./types";
 
 export class TheOneClient {
-  apiClient: APIClient
-
   constructor(clientOptions: ClientOptions) {
-    this.apiClient = new APIClient({
+    // initialize our internal apiClient
+    apiClient.init({
       token: clientOptions.accessToken,
-      apiVersion: clientOptions.apiVersion
-    })
+      apiVersion: clientOptions.apiVersion,
+    });
   }
 
-  async #doGet<T>(route: string): Promise<EntityFetchResponse<T>> {
+  async #doGet<T>(
+    route: string,
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<T>> {
     try {
-      const res = await this.apiClient.get<T>(route)
-      if (!res?.success) {
-        throw new Error(res?.message)
+      const res = await apiClient.get<T>(route, options);
+      if (!res?.docs && !res?.success) {
+        throw new Error(res?.message);
       }
       return {
         data: res.docs!,
@@ -30,7 +30,7 @@ export class TheOneClient {
         offset: res.offset!,
         page: res.page!,
         pages: res.pages!,
-      }
+      };
     } catch (err: any) {
       return {
         data: null,
@@ -40,39 +40,70 @@ export class TheOneClient {
         offset: 0,
         page: 0,
         pages: 0,
-      }
+      };
     }
   }
 
-  books(options?: RequestOptions): EntityFetchResponse<Book[]> {
-    return this.#doGet<Book[]>('/book')
+  async books(options?: RequestOptions): Promise<EntityFetchResponse<Book[]>> {
+    return this.#doGet<Book[]>("/book", options);
   }
 
-  book(id: string, options?: RequestOptions): EntityFetchResponse<Book[]> {
-
+  async book(
+    id: string,
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Book[]>> {
+    return this.#doGet<Book[]>(`/book/${id}`, options);
   }
 
-  movies(options?: RequestOptions): EntityFetchResponse<Movie[]> {
-
+  async movies(
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Movie[]>> {
+    return this.#doGet<Movie[]>(`/movie`, options);
   }
 
-  movie(id: string, options?: RequestOptions): EntityFetchResponse<Movie[]> {
-
+  async movie(
+    id: string,
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Movie[]>> {
+    return this.#doGet<Movie[]>(`/movie/${id}`, options);
   }
 
-  quotes(options?: RequestOptions): EntityFetchResponse<Quote[]> {
-
+  async quotes(
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Quote[]>> {
+    return this.#doGet<Quote[]>(`/quote`, options);
   }
 
-  quote(id: string, options?: RequestOptions): EntityFetchResponse<Quote[]> {
-
+  async quote(
+    id: string,
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Quote[]>> {
+    return this.#doGet<Quote[]>(`/quote/${id}`, options);
   }
 
-  chapters(options: RequestOptions): EntityFetchResponse<Chapter[]> {
-
+  async characters(
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Quote[]>> {
+    return this.#doGet<Quote[]>(`/character`, options);
   }
 
-  chapter(id: string, options: RequestOptions): EntityFetchResponse<Chapter[]> {
+  async character(
+    id: string,
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Quote[]>> {
+    return this.#doGet<Quote[]>(`/character/${id}`, options);
+  }
 
+  async chapters(
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Chapter[]>> {
+    return this.#doGet<Chapter[]>(`/chapter`, options);
+  }
+
+  async chapter(
+    id: string,
+    options?: RequestOptions
+  ): Promise<EntityFetchResponse<Chapter[]>> {
+    return this.#doGet<Chapter[]>(`/chapter/${id}`, options);
   }
 }
