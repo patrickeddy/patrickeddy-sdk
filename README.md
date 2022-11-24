@@ -23,25 +23,25 @@ const client = new TheOneClient({
 // books
 await client.books();
 await client.book("5cf5805fb53e011a64671582");
-await client.bookChapters("5cf5805fb53e011a64671582");
 
 // movies
 await client.movies();
 await client.movie("5cd95395de30eff6ebccde56");
-await client.movieQuotes("5cd95395de30eff6ebccde56");
 
 // characters
 await client.characters();
 await client.character("5cd99d4bde30eff6ebccfbbe");
-await client.characterQuotes("5cd99d4bde30eff6ebccfbbe");
 
 // quotes
 await client.quotes();
 await client.quote("5cd96e05de30eff6ebcce7e9");
+await client.movieQuotes("5cd95395de30eff6ebccde56");
+await client.characterQuotes("5cd99d4bde30eff6ebccfbbe");
 
 // chapters
 await client.chapters();
 await client.chapter("6091b6d6d58360f988133b8b");
+await client.bookChapters("5cf5805fb53e011a64671582");
 
 // pagination
 await client.characters({ limit: 100 });
