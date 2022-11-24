@@ -7,6 +7,6 @@ type Book = {
   academyAwardNominations: number;
   academyAwardWins: number;
   rottenTomatoesScore: number;
-}
+};
 
-export default Book
+export default Book;

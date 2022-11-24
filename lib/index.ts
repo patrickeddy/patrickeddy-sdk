@@ -1,12 +1,12 @@
+import apiClient from "./api-client";
 import Book from "./api-models/Book";
 import Chapter from "./api-models/Chapter";
 import Character from "./api-models/Character";
 import Movie from "./api-models/Movie";
 import Quote from "./api-models/Quote";
-import apiClient from "./apiClient";
 import { ClientOptions, EntityFetchResponse, RequestOptions } from "./types";
 
-export class TheOneClient {
+class TheOneClient {
   constructor(clientOptions: ClientOptions) {
     // initialize our internal apiClient
     apiClient.init({
@@ -117,3 +117,5 @@ export class TheOneClient {
     return this.#doGet<Chapter[]>(`/chapter/${id}`, options);
   }
 }
+
+export default TheOneClient;

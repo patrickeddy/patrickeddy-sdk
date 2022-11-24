@@ -5,23 +5,23 @@ export interface ClientOptions {
 
 export interface RequestOptions {
   // pagination
-  total: number;
-  limit: number;
-  offset: number;
-  page: number;
+  limit?: number;
+  page?: number;
+  offset?: number;
   // sorting
-  sort: Record<string, 'asc' | 'desc'>;
+  sort?: Record<string, "asc" | "desc">;
   // filters
-  match: Record<string, any>;
-  negateMatch: Record<string, any>;
-  include: Record<string, any>;
-  exclude: Record<string, any>;
-  exists: Record<string, any>;
-  doesntExist: Record<string, any>;
-  regex: Record<string, string>;
-  lt: Record<string,number>;
-  gt: Record<string, number>;
-  gte: Record<string, number>;
+  match?: Record<string, any>;
+  notMatch?: Record<string, any>;
+  include?: Record<string, any>;
+  exclude?: Record<string, any>;
+  exists?: string[];
+  notExist?: string[];
+  regex?: Record<string, string>;
+  notRegex?: Record<string, string>;
+  lt?: Record<string, number>;
+  gt?: Record<string, number>;
+  gte?: Record<string, number>;
 }
 
 export interface EntityFetchResponse<T> {

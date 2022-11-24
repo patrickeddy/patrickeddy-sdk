@@ -1,5 +1,5 @@
 type Movie = {
-  id: string;
+  _id: string;
   name: string;
   runtimeInMinutes: number;
   budgetInMillions: number;
@@ -7,6 +7,6 @@ type Movie = {
   academyAwardNominations: number;
   academyAwardWins: number;
   rottenTomatoesScore: number;
-}
+};
 
-export default Movie
+export default Movie;

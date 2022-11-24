@@ -1,6 +1,6 @@
 import fetchMock from "fetch-mock";
-import apiClient from "./apiClient";
-import { TheOneClient } from "./index";
+import apiClient from "./api-client";
+import TheOneClient from "./index";
 
 describe("Book", () => {
   let client: TheOneClient;

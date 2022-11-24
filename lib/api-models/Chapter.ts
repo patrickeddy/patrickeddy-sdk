@@ -1,7 +1,7 @@
 type Chapter = {
-  id: string;
+  _id: string;
   book: string;
   chapterName: string;
-}
+};
 
-export default Chapter
+export default Chapter;

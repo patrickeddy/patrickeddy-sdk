@@ -1,4 +1,7 @@
-import { RequestOptions } from "./types";
+import { RequestOptions } from "../types";
+import { getQueryParamString } from "./util";
+
+const isDebug = process.env.DEBUG === "true";
 
 export type APIResponse<T> = {
   docs?: T;
@@ -30,26 +33,32 @@ class APIClient {
     return this.#token ? { authorization: `Bearer ${this.#token}` } : undefined;
   }
 
-  #parseOptions(options: RequestOptions) {
-    //TODO: implement options parsing
-  }
-
   async get<T>(
     route: string,
     options?: RequestOptions
   ): Promise<APIResponse<T>> {
+    const paramString = getQueryParamString(options);
+
     if (!this.ready) {
       throw new Error("apiClient not initialized");
     }
-    const res = await fetch(`${this.baseUrl}${route}`, {
-      headers: this.#headers,
-    });
+    const url = `${this.baseUrl}${route}${paramString}`;
+
+    if (isDebug) {
+      console.log(`\nURL: ${url}`);
+    }
+
+    const res = await fetch(url, { headers: this.#headers });
 
     if (res.status >= 400) {
       return { success: false, message: await res.text() };
     }
 
-    return res.json() as APIResponse<T>;
+    const body = (await res.json()) as APIResponse<T>;
+    if (isDebug) {
+      console.log(`${JSON.stringify(body)}\n`);
+    }
+    return body;
   }
 }
 
