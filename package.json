@@ -1,6 +1,6 @@
 {
   "name": "@patrickeddy/theonesdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "To rule them all.",
   "main": "dist/index.js",
   "directories": {
