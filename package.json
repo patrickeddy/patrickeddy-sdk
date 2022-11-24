@@ -10,7 +10,7 @@
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "build": "tsc",
-    "deploy": "npm publish @theone/js"
+    "deploy": "npm publish"
   },
   "keywords": [
     "lotr"
