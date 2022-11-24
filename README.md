@@ -73,8 +73,8 @@ await client.movies({ gte: { runtimeInMinutes: 160 } });
 1. Clone repo and install dependencies
 
 ```bash
-git clone <repo URI here>
-cd theonesdk
+git clone git@github.com:patrickeddy/patrickeddy-sdk.git
+cd cd patrickeddy-sdk
 npm i
 ```
 
